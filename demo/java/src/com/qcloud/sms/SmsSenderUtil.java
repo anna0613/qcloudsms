@@ -1,14 +1,14 @@
 package com.qcloud.sms;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Random;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 class SmsSenderUtil {
 
@@ -129,7 +129,19 @@ class SmsSenderUtil {
     	}
     	return result;
     }
-    
+
+	public SmsVoiceResult jsonToSmsVoiceResult(JSONObject json) {
+		SmsVoiceResult result = new SmsVoiceResult();
+
+		result.result = json.getInt("result");
+		result.errMsg = json.getString("errmsg");
+		if (0 == result.result) {
+			result.ext = json.getString("ext");
+			result.callid = json.getString("callid");
+		}
+		return result;
+	}
+
     public SmsMultiSenderResult jsonToSmsMultiSenderResult(JSONObject json) {
     	SmsMultiSenderResult result = new SmsMultiSenderResult();
     	
